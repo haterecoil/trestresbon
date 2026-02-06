@@ -5,9 +5,15 @@
   "main": "app.js",
   "scripts": {
     "start": "python3 -m http.server 8000",
-    "dev": "python3 -m http.server 8000"
+    "dev": "python3 -m http.server 8000",
+    "deploy": "echo 'Deployment ready - push to GitHub to deploy to GitHub Pages'"
   },
   "keywords": ["paris", "restaurants", "map", "javascript"],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "homepage": "https://VOTRE_NOM_UTILISATEUR.github.io/paris-restaurant-map/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VOTRE_NOM_UTILISATEUR/paris-restaurant-map.git"
+  }
 }
