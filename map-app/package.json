@@ -1,0 +1,35 @@
+{
+  "name": "paris-restaurant-map",
+  "version": "1.0.0",
+  "description": "Interactive map for discovering Paris restaurants from Très Très Bon",
+  "homepage": "https://yourusername.github.io/paris-restaurant-map",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "export": "next build",
+    "deploy": "next build && touch out/.nojekyll && gh-pages -d out",
+    "extract": "python3 ../extract_data.py"
+  },
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-map-gl": "^7.1.0",
+    "maplibre-gl": "^3.6.0",
+    "framer-motion": "^10.16.0",
+    "@tanstack/react-query": "^5.0.0",
+    "lucide-react": "^0.294.0",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.3.0"
+  }
+}
