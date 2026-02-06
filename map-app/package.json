@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "export": "next build",
-    "deploy": "next build && touch out/.nojekyll && gh-pages -d out",
+    "deploy": "next build && touch out/.nojekyll && gh-pages -d out --dotfiles",
     "extract": "python3 ../extract_data.py"
   },
   "dependencies": {
