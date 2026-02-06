@@ -1,0 +1,13 @@
+{
+  "name": "paris-restaurant-map",
+  "version": "1.0.0",
+  "description": "Paris Restaurant Map - Vanilla JavaScript Application",
+  "main": "app.js",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "dev": "python3 -m http.server 8000"
+  },
+  "keywords": ["paris", "restaurants", "map", "javascript"],
+  "author": "",
+  "license": "MIT"
+}
