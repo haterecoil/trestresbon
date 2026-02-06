@@ -1,18 +1,56 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { MapComponent } from '@/components/Map'
 import { BottomSheet } from '@/components/BottomSheet'
 import { SearchBar } from '@/components/SearchBar'
 import { FilterModal } from '@/components/FilterModal'
 import { RestaurantCard } from '@/components/RestaurantCard'
-import { useRestaurants } from '@/hooks/useRestaurants'
 import { Restaurant } from '@/types'
 import { filterRestaurants } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
 
+const DATA_URL = './data/restaurants_latest.jsonl';
+
+async function fetchRestaurants(): Promise<Restaurant[]> {
+  console.log('Fetching from:', DATA_URL);
+  const response = await fetch(DATA_URL);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch: ${response.status}`);
+  }
+  
+  const text = await response.text();
+  const lines = text.trim().split('\n');
+  
+  return lines.map((line) => {
+    const data = JSON.parse(line);
+    return {
+      id: data.id,
+      name: data.name,
+      chef: data.chef,
+      street: data.street,
+      zip: data.zip,
+      city: data.city,
+      metroStation: data.metro_station,
+      metroLine: data.metro_line,
+      latitude: data.latitude,
+      longitude: data.longitude,
+      type: data.type,
+      cuisine: data.cuisine,
+      budget: data.budget,
+      website: data.website,
+      descriptionShort: data.description_short,
+      descriptionLong: data.description_long,
+      imageUrl: data.image_url,
+      extractedAt: data.extracted_at,
+    };
+  });
+}
+
 export default function Home() {
-  const { data: restaurants, isLoading, error } = useRestaurants()
+  const [restaurants, setRestaurants] = useState<Restaurant[] | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
   const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(null)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [filters, setFilters] = useState({
@@ -21,6 +59,21 @@ export default function Home() {
     budgets: [] as string[],
     searchQuery: '',
   })
+
+  useEffect(() => {
+    console.log('Loading restaurants...');
+    fetchRestaurants()
+      .then(data => {
+        console.log('Loaded', data.length, 'restaurants');
+        setRestaurants(data);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to load:', err);
+        setError(err);
+        setIsLoading(false);
+      });
+  }, []);
 
   const filteredRestaurants = useMemo(() => {
     if (!restaurants) return []
@@ -41,12 +94,18 @@ export default function Home() {
         <div>
           <h2 className="text-xl font-bold mb-2">Error loading restaurants</h2>
           <p className="text-gray-600">{error.message}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="mt-4 px-4 py-2 bg-primary text-white rounded"
+          >
+            Retry
+          </button>
         </div>
       </div>
     )
   }
 
-  if (!restaurants) {
+  if (!restaurants || restaurants.length === 0) {
     return (
       <div className="h-screen flex items-center justify-center">
         <p>No restaurants found</p>
